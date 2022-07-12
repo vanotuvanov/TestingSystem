@@ -1,0 +1,10 @@
+node_modules/
+*.suo
+*.v2
+
+*.user
+
+[Bb]in/
+[Oo]bj/
+.vs/
+.vscode/
