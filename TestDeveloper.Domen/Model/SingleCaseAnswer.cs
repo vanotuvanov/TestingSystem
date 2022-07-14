@@ -9,5 +9,6 @@ namespace TestDeveloper.Domen
     public class SingleCaseAnswer : Answer
     {
         public bool TrueVarriant { get; set; }
+       
     }
 }

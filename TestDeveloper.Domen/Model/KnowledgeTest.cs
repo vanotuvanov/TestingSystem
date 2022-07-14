@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TestDeveloper.Domen
 {
-    public enum TestStatuse
+    public enum Status
     {
         InDevelopment = 10,
         Relevant = 20,
@@ -21,6 +21,6 @@ namespace TestDeveloper.Domen
 
         public List<Question> Questions { get; set; } = new List<Question>();
         public Option Option { get; set; }
-        public TestStatuse Enum { get; set; }
+        public Status Status { get; set; }
     }
 }

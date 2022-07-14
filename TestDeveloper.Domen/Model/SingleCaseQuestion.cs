@@ -8,6 +8,6 @@ namespace TestDeveloper.Domen
 {
     public class SingleCaseQuestion : Question
     {
-
+        //SingleCaseAnswer -> SingleCaseQuestion (работа с List)
     }
 }
