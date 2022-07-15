@@ -14,6 +14,5 @@ namespace TestDeveloper.Domen
         public Guid KnowledgeTestId { get; set; }
         public KnowledgeTest KnowledgeTest { get; set; }
 
-        public List<Answer> Answers { get; set; } = new List<Answer>();
     }
 }

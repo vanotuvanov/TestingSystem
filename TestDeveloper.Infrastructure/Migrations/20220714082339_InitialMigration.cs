@@ -5,10 +5,22 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace TestDeveloper.Infrastructure.Migrations
 {
-    public partial class InitilaMigration : Migration
+    public partial class InitialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Answers",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Content = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Answers", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "KnowledgeTests",
                 columns: table => new
@@ -16,7 +28,7 @@ namespace TestDeveloper.Infrastructure.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Enum = table.Column<int>(type: "int", nullable: false)
+                    Status = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -64,29 +76,11 @@ namespace TestDeveloper.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Answers",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    QuestionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Answers", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Answers_Questions_QuestionId",
-                        column: x => x.QuestionId,
-                        principalTable: "Questions",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "MultipleCaseQuestions",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    test = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -119,7 +113,8 @@ namespace TestDeveloper.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    TrueVarriant = table.Column<bool>(type: "bit", nullable: false)
+                    TrueVarriant = table.Column<bool>(type: "bit", nullable: false),
+                    MultipleCaseQuestionId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -129,6 +124,11 @@ namespace TestDeveloper.Infrastructure.Migrations
                         column: x => x.Id,
                         principalTable: "Answers",
                         principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_MultipleCaseAnswers_MultipleCaseQuestions_MultipleCaseQuestionId",
+                        column: x => x.MultipleCaseQuestionId,
+                        principalTable: "MultipleCaseQuestions",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -136,7 +136,8 @@ namespace TestDeveloper.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    TrueVarriant = table.Column<bool>(type: "bit", nullable: false)
+                    TrueVarriant = table.Column<bool>(type: "bit", nullable: false),
+                    SingleCaseQuestionId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -146,12 +147,17 @@ namespace TestDeveloper.Infrastructure.Migrations
                         column: x => x.Id,
                         principalTable: "Answers",
                         principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_SingleCaseAnswers_SingleCaseQuestions_SingleCaseQuestionId",
+                        column: x => x.SingleCaseQuestionId,
+                        principalTable: "SingleCaseQuestions",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Answers_QuestionId",
-                table: "Answers",
-                column: "QuestionId");
+                name: "IX_MultipleCaseAnswers_MultipleCaseQuestionId",
+                table: "MultipleCaseAnswers",
+                column: "MultipleCaseQuestionId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Option_KnowledgeTestId",
@@ -163,6 +169,11 @@ namespace TestDeveloper.Infrastructure.Migrations
                 name: "IX_Questions_KnowledgeTestId",
                 table: "Questions",
                 column: "KnowledgeTestId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SingleCaseAnswers_SingleCaseQuestionId",
+                table: "SingleCaseAnswers",
+                column: "SingleCaseQuestionId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -171,19 +182,19 @@ namespace TestDeveloper.Infrastructure.Migrations
                 name: "MultipleCaseAnswers");
 
             migrationBuilder.DropTable(
-                name: "MultipleCaseQuestions");
-
-            migrationBuilder.DropTable(
                 name: "Option");
 
             migrationBuilder.DropTable(
                 name: "SingleCaseAnswers");
 
             migrationBuilder.DropTable(
-                name: "SingleCaseQuestions");
+                name: "MultipleCaseQuestions");
 
             migrationBuilder.DropTable(
                 name: "Answers");
+
+            migrationBuilder.DropTable(
+                name: "SingleCaseQuestions");
 
             migrationBuilder.DropTable(
                 name: "Questions");

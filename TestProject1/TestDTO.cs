@@ -4,20 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TestDeveloper.Domen;
-using TestDeveloper.Infrastructure;
+using TestDeveloper.API;
 
 namespace TestProject1
 {
-
-    public class SingleCaseQuestionTest
+    public class TestDTO
     {
         [Fact]
-        public void SingleCaseQuestionAdd()
+        public void DTOTest()
         {
-            TestRepository personRepository;
-            KnowledgeTest test;
-            Guid testid;
-            KnowledgeTestTest.SettingProperties(out personRepository, out test, out testid);
+            KnowledgeTest test = new KnowledgeTest();
             Guid questionId = Guid.NewGuid();
             SingleCaseQuestion singleCaseQuestion = new SingleCaseQuestion();
             singleCaseQuestion.Id = questionId;
@@ -36,13 +32,10 @@ namespace TestProject1
             singleCaseQuestion.SingleCaseAnswers.Add(singleCaseAnswer2);
             test.Questions.Add(singleCaseQuestion);
 
-            personRepository.AddAsync(test).Wait();
-
-            Assert.Equal(testid, personRepository.GetAsync(testid).Result.Id);
-            Assert.True(personRepository.GetAllAsync().Result.Count == 1);
-            Assert.Equal("вопрос", personRepository.GetAsync(testid).Result.Questions[0].Content);
-            Assert.True(((SingleCaseQuestion)personRepository.GetAsync(testid).Result.Questions[0]).SingleCaseAnswers[1].TrueVarriant);
-            Assert.Equal("ответ 2", ((SingleCaseQuestion)personRepository.GetAsync(testid).Result.Questions[0]).SingleCaseAnswers[1].Content);
+            TestDeveloper.API.DTO.KnowledgeTestDTO knowledgeTestDTO = new TestDeveloper.API.DTO.KnowledgeTestDTO(test);
+            Assert.Equal(test.Id, knowledgeTestDTO.Id);
+            Assert.True(knowledgeTestDTO.QuestionDTOs.Count == 1);
+            Assert.Equal("вопрос", knowledgeTestDTO.QuestionDTOs);
         }
     }
 }

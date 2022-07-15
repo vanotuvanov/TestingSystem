@@ -2,25 +2,25 @@
 
 namespace TestDeveloper.API.DTO
 {
-    public class TestDTO
+    public class KnowledgeTestDTO
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public string Status { get; set; }
-        //public Guid DeveloperId { get; set; } 
-        public List<Question> QuestionDTOs { get; set; } = new List<Question>();
-    
+        public Enum Status { get; set; }
+        public List<QuestionDTO> QuestionDTOs { get; set; } = new List<QuestionDTO>();
 
-        public TestDTO(KnowledgeTest test)
+
+        public KnowledgeTestDTO(KnowledgeTest test)
         {
             Id = test.Id;
             Name = test.Title;
             Description = test.Description;
-            Status = test.Status.ToString();
-            // DeveloperId =
-            QuestionDTOs = test.Questions;
-
+            foreach (var item in test.Questions)
+            {
+                var dtoQuestions = new QuestionDTO(item);
+                QuestionDTOs.Add(dtoQuestions);
+            }
         }
     }
 }

@@ -35,11 +35,22 @@ namespace TestDeveloper.Infrastructure
         public async Task<KnowledgeTest> GetAsync(Guid id)
         {
             var test = await _context.KnowledgeTests
-                .Include(o => o.Option)
-                .Include(q => q.Questions)
-                .ThenInclude(a => a.Answers)
-                .Where(a => a.Id == id)
-                .FirstOrDefaultAsync();
+                .Include(o => o.Option).FirstOrDefaultAsync();
+
+            var singleCaseQuestions = await _context.SingleCaseQuestions
+                .Include(sq => sq.SingleCaseAnswers)
+                .Where(sq => sq.KnowledgeTest.Id == id)
+                .ToListAsync();
+
+            test.Questions.AddRange(singleCaseQuestions);
+
+            var multipleCaseQuestions = await _context.MultipleCaseQuestions
+                .Include(mq => mq.MultipleCaseAnswers)
+                .Where(mq => mq.KnowledgeTest.Id == id)
+                .ToListAsync();
+
+            test.Questions.AddRange(multipleCaseQuestions);
+
             return test;
         }
 

@@ -24,12 +24,12 @@ namespace TestDeveloper.Infrastructure
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public async Task<List<SingleCaseQuestion>> GetAllAsync(Guid testId)
-        {
-            var questions = await _context.SingleCaseQuestions
-                                .Include(a => a.Answers)
-                                .Where(q => q.KnowledgeTest.Id == testId).ToListAsync();
-            return questions;
-        }
+        //public async Task<List<SingleCaseQuestion>> GetAllAsync(Guid testId)
+        //{
+        //    var questions = await _context.SingleCaseQuestions
+        //                        .Include(a => a.Answers)
+        //                        .Where(q => q.KnowledgeTest.Id == testId).ToListAsync();
+        //    return questions;
+        //}
     }
 }

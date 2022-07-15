@@ -11,7 +11,7 @@ namespace TestProject1
     public class KnowledgeTestTest
     {
     
-        [Fact]
+        
         public void TestAdd()
         {
             TestRepository personRepository;

@@ -8,5 +8,7 @@ namespace TestDeveloper.Domen
 {
     public class MultipleCaseQuestion : Question
     {
+        public int test { get; set; }
+        public List<MultipleCaseAnswer> MultipleCaseAnswers { get; set; } = new List<MultipleCaseAnswer>();
     }
 }

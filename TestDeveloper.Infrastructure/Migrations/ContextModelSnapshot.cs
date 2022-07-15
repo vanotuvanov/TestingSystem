@@ -32,12 +32,7 @@ namespace TestDeveloper.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("QuestionId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("QuestionId");
 
                     b.ToTable("Answers", (string)null);
                 });
@@ -52,7 +47,7 @@ namespace TestDeveloper.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Enum")
+                    b.Property<int>("Status")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
@@ -114,8 +109,13 @@ namespace TestDeveloper.Infrastructure.Migrations
                 {
                     b.HasBaseType("TestDeveloper.Domen.Answer");
 
+                    b.Property<Guid?>("MultipleCaseQuestionId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<bool>("TrueVarriant")
                         .HasColumnType("bit");
+
+                    b.HasIndex("MultipleCaseQuestionId");
 
                     b.ToTable("MultipleCaseAnswers", (string)null);
                 });
@@ -124,6 +124,9 @@ namespace TestDeveloper.Infrastructure.Migrations
                 {
                     b.HasBaseType("TestDeveloper.Domen.Question");
 
+                    b.Property<int>("test")
+                        .HasColumnType("int");
+
                     b.ToTable("MultipleCaseQuestions", (string)null);
                 });
 
@@ -131,8 +134,13 @@ namespace TestDeveloper.Infrastructure.Migrations
                 {
                     b.HasBaseType("TestDeveloper.Domen.Answer");
 
+                    b.Property<Guid?>("SingleCaseQuestionId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<bool>("TrueVarriant")
                         .HasColumnType("bit");
+
+                    b.HasIndex("SingleCaseQuestionId");
 
                     b.ToTable("SingleCaseAnswers", (string)null);
                 });
@@ -142,17 +150,6 @@ namespace TestDeveloper.Infrastructure.Migrations
                     b.HasBaseType("TestDeveloper.Domen.Question");
 
                     b.ToTable("SingleCaseQuestions", (string)null);
-                });
-
-            modelBuilder.Entity("TestDeveloper.Domen.Answer", b =>
-                {
-                    b.HasOne("TestDeveloper.Domen.Question", "Question")
-                        .WithMany("Answers")
-                        .HasForeignKey("QuestionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Question");
                 });
 
             modelBuilder.Entity("TestDeveloper.Domen.Option", b =>
@@ -184,6 +181,10 @@ namespace TestDeveloper.Infrastructure.Migrations
                         .HasForeignKey("TestDeveloper.Domen.MultipleCaseAnswer", "Id")
                         .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
+
+                    b.HasOne("TestDeveloper.Domen.MultipleCaseQuestion", null)
+                        .WithMany("MultipleCaseAnswers")
+                        .HasForeignKey("MultipleCaseQuestionId");
                 });
 
             modelBuilder.Entity("TestDeveloper.Domen.MultipleCaseQuestion", b =>
@@ -202,6 +203,10 @@ namespace TestDeveloper.Infrastructure.Migrations
                         .HasForeignKey("TestDeveloper.Domen.SingleCaseAnswer", "Id")
                         .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
+
+                    b.HasOne("TestDeveloper.Domen.SingleCaseQuestion", null)
+                        .WithMany("SingleCaseAnswers")
+                        .HasForeignKey("SingleCaseQuestionId");
                 });
 
             modelBuilder.Entity("TestDeveloper.Domen.SingleCaseQuestion", b =>
@@ -221,9 +226,14 @@ namespace TestDeveloper.Infrastructure.Migrations
                     b.Navigation("Questions");
                 });
 
-            modelBuilder.Entity("TestDeveloper.Domen.Question", b =>
+            modelBuilder.Entity("TestDeveloper.Domen.MultipleCaseQuestion", b =>
                 {
-                    b.Navigation("Answers");
+                    b.Navigation("MultipleCaseAnswers");
+                });
+
+            modelBuilder.Entity("TestDeveloper.Domen.SingleCaseQuestion", b =>
+                {
+                    b.Navigation("SingleCaseAnswers");
                 });
 #pragma warning restore 612, 618
         }
