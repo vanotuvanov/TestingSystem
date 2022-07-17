@@ -13,7 +13,7 @@ namespace TestDeveloper.API.DTO
 
         public SingleCaseAnswerDTO(SingleCaseAnswer answer) : base(answer)
         {
-
+            TrueVarriant = answer.TrueVarriant;
         }
     }
 }

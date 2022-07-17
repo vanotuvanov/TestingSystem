@@ -13,7 +13,10 @@ namespace TestDeveloper.API.DTO
 
         public MultipleCaseQuestionDTO(MultipleCaseQuestion question) : base(question)
         {
-
+            foreach (var item in question.MultipleCaseAnswers)
+            {
+                MultipleCaseAnswerDTOs.Add(new MultipleCaseAnswerDTO(item));
+            }
         }
     }
 }

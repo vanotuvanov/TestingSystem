@@ -18,8 +18,15 @@ namespace TestDeveloper.API.DTO
             Description = test.Description;
             foreach (var item in test.Questions)
             {
-                var dtoQuestions = new QuestionDTO(item);
-                QuestionDTOs.Add(dtoQuestions);
+                Type t = item.GetType();
+                if (t.Equals(typeof(SingleCaseQuestion)))
+                {
+                    QuestionDTOs.Add(new SingleCaseQuestionDTO(item as SingleCaseQuestion));
+                }
+                else if (t.Equals(typeof(MultipleCaseQuestion)))
+                {
+                    QuestionDTOs.Add(new MultipleCaseQuestionDTO(item as MultipleCaseQuestion));
+                }
             }
         }
     }

@@ -15,7 +15,10 @@ namespace TestDeveloper.API.DTO
 
         public SingleCaseQuestionDTO(SingleCaseQuestion question) : base(question)
         {
-            
+            foreach (var item in question.SingleCaseAnswers)
+            {
+                SingleCaseAnswerDTOs.Add(new SingleCaseAnswerDTO(item));
+            }
         }
     }
 }
