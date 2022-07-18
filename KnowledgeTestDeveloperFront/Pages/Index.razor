@@ -1,0 +1,28 @@
+﻿@page "/"
+
+@using System.Net.Http
+@inject HttpClient Http
+@using System.Net.Http.Json
+@using System.Threading.Tasks
+
+
+
+<PageTitle>Index</PageTitle>
+
+<h1>Hello, world!</h1>
+
+Welcome to your new app.
+
+<SurveyPrompt Title="How is Blazor working for you?" />
+
+<button class="btn btn-primary" @onclick="CreateTest">Создать тест</button>
+
+@code {
+
+    protected override async Task CreateTest()
+    {
+        tests = await Http.PostAsJsonAsync<>
+            ("https://localhost:7185/api/")
+    }
+
+}

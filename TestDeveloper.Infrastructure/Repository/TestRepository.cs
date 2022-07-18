@@ -60,6 +60,13 @@ namespace TestDeveloper.Infrastructure
             await _context.SaveChangesAsync();
         }
 
+        public async Task UpdateAsync(KnowledgeTest test)
+        {
+            var existTest = await _context.KnowledgeTests.FindAsync(test.Id);
+            _context.Entry(existTest).CurrentValues.SetValues(test);
+            await _context.SaveChangesAsync();
+        }
+
         public async Task DeleteAsync(Guid id)
         {
             KnowledgeTest test = await _context.KnowledgeTests.FindAsync(id);
