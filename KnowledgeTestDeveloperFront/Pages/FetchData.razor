@@ -1,0 +1,69 @@
+﻿@page "/fetchdata"
+@inject HttpClient Http
+@using TestDeveloper.API
+@using TestDeveloper.API.DTO;
+@using TestDeveloper.Domen
+
+<PageTitle>Список тестов</PageTitle>
+
+@if (fulfil && tests == null)
+{
+    <p>Пользователи отсутствуют.</p>
+}
+else if (!fulfil && tests == null)
+{
+    <p>Идет загрузка...</p>
+}
+
+@if (tests != null)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>№</th>
+                <th>Name</th>
+                <th>Id</th>
+                <th>Description</th>
+                <th>Status</th>
+                <th>Test Time</th>
+                <th>Number Of Questions</th>
+                <th>Number Of Ettemps</th>
+            </tr>
+            </thead>
+            <tbody>
+
+   
+        @foreach (var test in tests)
+        {
+            <tr>
+                <td>@(++count) </td>
+                <td>@test.Name</td>
+                <td>@test.Id</td>
+                <td>@test.Description</td>
+                <td>@test.Status</td>
+                <td>@test.OptionDTO.TestTime</td>
+                <td>@test.OptionDTO.NumberOfQuestions</td>
+                <td>@test.OptionDTO.NumberOfEttemps</td>
+            </tr>
+        }
+        </tbody>
+    </table>  
+}
+
+
+@code {
+    private int count = 0; 
+    private IEnumerable<KnowledgeTestDTO> tests;
+    private bool fulfil = false;
+
+    protected override async Task OnParametersSetAsync() =>
+    tests = await Http.GetFromJsonAsync<KnowledgeTestDTO[]>
+        ("https://localhost:8001/api/test");
+
+    protected override async Task OnInitializedAsync()
+    {
+        var a = await Http.GetFromJsonAsync<IEnumerable<KnowledgeTestDTO>>
+            ("https://localhost:8001/api/test");
+        fulfil = true;
+    }
+}

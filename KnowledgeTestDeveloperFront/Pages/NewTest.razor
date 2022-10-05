@@ -1,0 +1,44 @@
+﻿@page "/NewTest"
+
+@using TestDeveloper.API
+@using TestDeveloper.API.DTO;
+@using TestDeveloper.Domen
+@using System.Net.Http
+@inject HttpClient Http
+@using System.Net.Http.Json
+@using System.Threading.Tasks
+
+<PageTitle>Создание теста</PageTitle>
+
+<p><input @bind="title" placeholder="Название"/></p>
+<p><input @bind="description" placeholder="Описание"/></p>
+<p><button @onclick="CreateTest">Создать тест</button></p>
+
+
+@code {
+    private string title = "";
+    private string description = "";
+
+
+    public EventCallback<string> OnAddTest { get; set; }
+    private async void CreateTest()
+    {
+        KnowledgeTest test = new KnowledgeTest()
+            {
+                Id = Guid.NewGuid(),
+                Title = title,
+                Description = description,
+                Status = Status.InDevelopment,
+                Option = new Option
+                {
+                    TestTime = 60,
+                    NumberOfEttemps = 1,
+                    NumberOfQuestions = 2,
+                }
+        };
+        
+        KnowledgeTestDTO testDTO = new KnowledgeTestDTO(test);
+        await Http.PostAsJsonAsync("https://localhost:8001/api/test", testDTO);
+        await OnAddTest.InvokeAsync("OK");
+    }
+}
