@@ -20,7 +20,7 @@ namespace TestDeveloper.Domen
         public string Description { get; set; }
 
         public List<Question> Questions { get; set; } = new List<Question>();
-        public Option Option { get; set; }
+        public Option Option { get; set; } = new Option();
         public Status Status { get; set; }
     }
 }

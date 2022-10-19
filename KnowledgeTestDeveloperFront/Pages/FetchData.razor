@@ -1,5 +1,6 @@
 ﻿@page "/fetchdata"
 @inject HttpClient Http
+@inject NavigationManager _nav
 @using TestDeveloper.API
 @using TestDeveloper.API.DTO;
 @using TestDeveloper.Domen
@@ -21,38 +22,32 @@ else if (!fulfil && tests == null)
         <thead>
             <tr>
                 <th>№</th>
-                <th>Name</th>
-                <th>Id</th>
-                <th>Description</th>
-                <th>Status</th>
-                <th>Test Time</th>
-                <th>Number Of Questions</th>
-                <th>Number Of Ettemps</th>
+                <th>Название</th>
+                <th>Описание</th>
+                <th>Количество вопросов</th>
+                <th>Количество попыток</th>
             </tr>
-            </thead>
-            <tbody>
+        </thead>
+        <tbody>
 
-   
-        @foreach (var test in tests)
-        {
-            <tr>
-                <td>@(++count) </td>
-                <td>@test.Name</td>
-                <td>@test.Id</td>
-                <td>@test.Description</td>
-                <td>@test.Status</td>
-                <td>@test.OptionDTO.TestTime</td>
-                <td>@test.OptionDTO.NumberOfQuestions</td>
-                <td>@test.OptionDTO.NumberOfEttemps</td>
-            </tr>
-        }
+
+            @foreach (var test in tests)
+            {
+                    <tr>
+                    <td>@(++count)</td>
+                    <td><Button style="background-color:white; text-decoration:underline; border-style:none; color:blue" @onclick="@(()=>_nav.NavigateTo($"/test/{test.Id.ToString()}"))">@test.Name</Button></td>
+                    <td>@test.Description </td>
+                    <td>@test.OptionDTO.NumberOfQuestions </td>
+                    <td>@test.OptionDTO.NumberOfEttemps </td>
+                </tr>
+            }
         </tbody>
-    </table>  
+    </table>
 }
 
 
 @code {
-    private int count = 0; 
+    private int count = 0;
     private IEnumerable<KnowledgeTestDTO> tests;
     private bool fulfil = false;
 

@@ -37,9 +37,9 @@ namespace TestDeveloper.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<KnowledgeTest>> GetTest(Guid id)
+        public async Task<ActionResult<KnowledgeTest>> GetTest(string id)
         {
-            var test = await _testRepository.GetAsync(id);
+            var test = await _testRepository.GetAsync(new Guid(id));
             if (test == null)
             {
                 return NotFound();

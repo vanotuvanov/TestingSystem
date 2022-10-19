@@ -1,0 +1,37 @@
+﻿@page "/test/{testAttribute}"
+@inject HttpClient Http
+@using TestDeveloper.API
+@using TestDeveloper.API.DTO;
+@using TestDeveloper.Domen
+
+<PageTitle>Test</PageTitle>
+
+<h1>TEST!</h1>
+<table class="table">
+        <thead>
+            <tr>
+                <th>№</th>
+            </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>@testAttribute</td>
+        </tr>
+        }
+    </tbody>
+</table>
+@code {
+    [Parameter]
+    public string testAttribute { get; set; }
+    private KnowledgeTestDTO test;
+
+    protected override async Task OnParametersSetAsync() =>
+    test = await Http.GetFromJsonAsync<KnowledgeTestDTO>
+        ("https://localhost:8001/api/test/"+ testAttribute);
+
+    protected override async Task OnInitializedAsync()
+    {
+        var a = await Http.GetFromJsonAsync<KnowledgeTestDTO>
+            ("https://localhost:8001/api/test/" + testAttribute);
+    }
+}
