@@ -39,7 +39,7 @@ namespace TestDeveloper.API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<KnowledgeTestDTO>> GetTest(string id)
         {
-            var test = await _testRepository.GetAsync(Guid.Parse(id));
+            var test = await _testRepository.GetAsync(new Guid(id));
             if (test == null)
             {
                 return NotFound();

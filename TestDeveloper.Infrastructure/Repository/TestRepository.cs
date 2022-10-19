@@ -35,7 +35,9 @@ namespace TestDeveloper.Infrastructure
         public async Task<KnowledgeTest> GetAsync(Guid id)
         {
             var test = await _context.KnowledgeTests
-                .Include(o => o.Option).FirstOrDefaultAsync();
+                .Include(o => o.Option)
+                .Where(t => t.Id == id)
+                .FirstOrDefaultAsync();
 
             var singleCaseQuestions = await _context.SingleCaseQuestions
                 .Include(sq => sq.SingleCaseAnswers)
