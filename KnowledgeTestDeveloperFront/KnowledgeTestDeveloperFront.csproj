@@ -7,10 +7,27 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Pages\Component.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Blazored.Modal" Version="7.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.7" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.7" PrivateAssets="all" />
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties properties_4launchsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Pages\Component.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Pages\Component.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Pages\Component.razor" />
+  </ItemGroup>
 
 </Project>

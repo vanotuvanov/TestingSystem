@@ -3,12 +3,15 @@
 @using TestDeveloper.API
 @using TestDeveloper.API.DTO;
 @using TestDeveloper.Domen
+@using Blazored
+@using Blazored.Modal
+@using Blazored.Modal.Services
 
 <PageTitle>Test</PageTitle>
 
 @if (test != null)
 {
-    <h1 style="border: 10px solid #1D1858; display: inline; background: #1D1858; color: white">@test.Name</h1>
+    <h1 style="border: 10px; display: inline; background:linear-gradient(to bottom right, #1D1858, #750062);  padding: 10px 10px; color: white">@test.Name</h1>
     <span style="padding-left:5px;font-weight:400"> 
         @switch(Convert.ToInt32(test.Status))
         {
@@ -35,9 +38,10 @@
         }   
     </span>
 
-@*     <Button Size="Size.Small" Color="Color.Success" Clicked="@OnAddParsingTaskModalShow">
-                        <div style="font-size:14px" class="unselectable"><Icon Name="@("fa-plus")"></Icon> Добавить</div>
-                    </Button>*@
+    <button style="border-style:none; font-weight: 600; text-decoration:none; color: #fff; background: linear-gradient(to bottom right, #53DF00, #9CEF6C); display: table; margin-top: 20px; padding: 5px 10px;" class="btn btn-primary">Добавить вопрос</button>
+
+   <ModalDialog />
+
     <table class="table">
         <thead>
             <tr>
