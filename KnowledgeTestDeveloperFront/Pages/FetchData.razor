@@ -4,17 +4,10 @@
 @using TestDeveloper.API
 @using TestDeveloper.API.DTO;
 @using TestDeveloper.Domen
+@inject IJSRuntime jsRuntime
 
 <PageTitle>Список тестов</PageTitle>
 
-@if (fulfil && tests == null)
-{
-    <p>Пользователи отсутствуют.</p>
-}
-else if (!fulfil && tests == null)
-{
-    <p>Идет загрузка...</p>
-}
 
 @if (tests != null)
 {
@@ -39,26 +32,30 @@ else if (!fulfil && tests == null)
                     <td>@test.Description </td>
                     <td>@test.OptionDTO.NumberOfQuestions </td>
                     <td>@test.OptionDTO.NumberOfEttemps </td>
+                    <td><button @onclick="() => DeleteTest(test.Id)">X</button></td>
                 </tr>
             }
         </tbody>
     </table>
+    <font color="white">@(count = 0)</font>
+
 }
 
-
 @code {
+    private ElementReference _element;
     private int count = 0;
     private IEnumerable<KnowledgeTestDTO> tests;
-    private bool fulfil = false;
 
     protected override async Task OnParametersSetAsync() =>
     tests = await Http.GetFromJsonAsync<KnowledgeTestDTO[]>
         ("https://localhost:8001/api/test");
 
-    protected override async Task OnInitializedAsync()
+    protected async void DeleteTest(Guid id)
     {
-        var a = await Http.GetFromJsonAsync<IEnumerable<KnowledgeTestDTO>>
-            ("https://localhost:8001/api/test");
-        fulfil = true;
+        var uri = Path.Combine("https://localhost:8001/api/test", id.ToString());
+        await Http.DeleteAsync(uri);
+        tests = tests.Where(c => c.Id != id).ToList();
+        StateHasChanged();
+       // ((IJSInProcessRuntime)jsRuntime).InvokeVoid("ShowAlert", "спасите");
     }
 }
