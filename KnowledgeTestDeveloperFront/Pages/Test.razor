@@ -10,7 +10,7 @@
 <PageTitle>Test</PageTitle>
 
 @if (test != null)
-{
+{   
     <h1 style="border: 10px; display: inline; background:linear-gradient(to bottom right, #1D1858, #750062);  padding: 10px 10px; color: white">@test.Name</h1>
     <span style="padding-left:5px;font-weight:400"> 
         @switch(Convert.ToInt32(test.Status))
@@ -38,20 +38,29 @@
         }   
     </span>
 
-    <button style="border-style:none; font-weight: 600; text-decoration:none; color: #fff; background: linear-gradient(to bottom right, #53DF00, #9CEF6C); display: table; margin-top: 20px; padding: 5px 10px;" class="btn btn-primary">Добавить вопрос</button>
+    <h2 style="margin-top: 10px;"> <b>Описание</b> </h2>
+    <p style="margin-top: 5px;"> @test.Description </p>
 
-   //<ModalDialog/>
+    <button class="btn btn-primary" style="border-style:none; font-weight: 600; text-decoration:none; color: #fff; background: linear-gradient(to bottom right, #53DF00, #9CEF6C); display: table; margin-top: 20px; padding: 5px 10px;" @onclick="() => modal.Open()">Добавить вопрос</button>
 
     <table class="table">
         <thead>
             <tr>
                 <th>№</th>
+                <th>Content</th>
+
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>@test.Description</td>
-            </tr>
+                @foreach (var item in test.QuestionDTOs)
+                {
+                 <tr>
+                    <td>@(++count)</td>
+                    <td>@item.Content</td>
+                 </tr>
+                }
+                
+            
         </tbody>
     </table>
 }
@@ -60,45 +69,34 @@ else
     <p>Не успел</p>
 }
 
-
-<button class="btn btn-primary" @onclick="() => modal.Open()">Modal!</button>
-
 <Modal @ref="modal">
-    <Title>This is a <em>Title!</em></Title>
+    <Title>Добавьте ваш <em>Вопрос</em></Title>
     <Body>
-        <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Omnes enim iucundum motum, quo sensus hilaretur.
-            <i>Quis istud possit, inquit, negare?</i>
-            <mark>Ego vero isti, inquam, permitto.</mark> Duo Reges: constructio interrete.
-        </p>
-        <Index />
+        <p></p>
+        <NewTest />
         <dl>
-            <dt><dfn>Stoici scilicet.</dfn></dt>
-            <dd>An hoc usque quaque, aliter in vita?</dd>
-            <dt><dfn>Erat enim Polemonis.</dfn></dt>
-            <dd>Quod cum accidisset ut alter alterum necopinato videremus, surrexit statim.</dd>
         </dl>
     </Body>
     <Footer>
-        <button type="button" class="btn btn-primary">Save changes</button>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal" @onclick="() => modal.Close()">Close</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" @onclick="() => modal.Second()">Далее</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" @onclick="() => modal.Close()">Закрыть</button>
     </Footer>
 </Modal>
 
-@code {
-    private Modal modal { get; set; }
-}
 
 
 @code {
-   
+
     [Parameter]
     public string testAttribute { get; set; }
+    private Modal modal { get; set; }
     private KnowledgeTestDTO test;
+    private QuestionDTO question;
+    private int count = 0;
 
     protected override async Task OnParametersSetAsync() =>
         test = await Http.GetFromJsonAsync<KnowledgeTestDTO>
             ("https://localhost:8001/api/test/" + testAttribute); 
-    private bool modalVisible;
+    private bool modalVisible; 
 
 }

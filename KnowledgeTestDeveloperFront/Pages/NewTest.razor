@@ -36,9 +36,13 @@
                     NumberOfQuestions = 2,
                 }
         };
-        
+        description = "";
+        title = "";
+
         KnowledgeTestDTO testDTO = new KnowledgeTestDTO(test);
         await Http.PostAsJsonAsync("https://localhost:8001/api/test", testDTO);
         await OnAddTest.InvokeAsync("OK");
+
     }
+
 }
