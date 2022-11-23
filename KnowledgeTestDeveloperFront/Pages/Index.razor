@@ -7,3 +7,41 @@
 Welcome to your new app.
 
 <SurveyPrompt Title="How is Blazor working for you?" />
+<input @bind-value="newItem" />
+<button @onclick="addItem">Add Item</button>
+@foreach (var item in @ToDoList.Select((value, i) => new { i, value }))
+{
+    <br>
+    <br>
+    @(item.i+1)
+    <p><input @bind=@Title[item.i] placeholder="Название" /></p>
+    <div>@item.value <button @onclick="(()=>removeItem(item.value, item.i))">Remove</button></div>
+}
+
+<br>
+<br>
+
+
+
+@code {
+    int k = 0;
+    List<String> Title = new List<string>() { "", "", "", "" };
+    string newItem = "";
+    List<string> ToDoList = new List<string>() {"","","",""};
+    private void removeItem(string item, int number)
+    {
+        
+        if (item == "")
+        {
+            ToDoList.Remove(item);    
+            Title.RemoveAt(number);
+        }
+    }
+    private void addItem()
+    {
+        ToDoList.Add(newItem);
+        Title.Add("");
+        newItem = "";
+    }
+
+}
