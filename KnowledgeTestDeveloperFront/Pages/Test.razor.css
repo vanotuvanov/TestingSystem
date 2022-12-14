@@ -1,0 +1,8 @@
+﻿.delete-button {
+    color: red;
+    background-color: ;
+}
+button a:hover {
+    color: #ffe; /* Цвет текста активного пункта */
+    background-color: #5488af; /* Цвет фона активного пункта */
+}

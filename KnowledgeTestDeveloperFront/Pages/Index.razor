@@ -1,21 +1,17 @@
-﻿@page "/"
+﻿@page "/index"
 
-<PageTitle>Index</PageTitle>
-
-<h1>Hello, world!</h1>
-
-Welcome to your new app.
-
-<SurveyPrompt Title="How is Blazor working for you?" />
-<input @bind-value="newItem" />
-<button @onclick="addItem">Add Item</button>
+<button @onclick="addItem">Добавить новый вопрос</button>
 @foreach (var item in @ToDoList.Select((value, i) => new { i, value }))
 {
     <br>
     <br>
-    @(item.i+1)
-    <p><input @bind=@Title[item.i] placeholder="Название" /></p>
-    <div>@item.value <button @onclick="(()=>removeItem(item.value, item.i))">Remove</button></div>
+
+    <p> @(item.i + 1)<input @bind=@Title[item.i] placeholder="Вопрос" />
+        <div>
+            @item.value <button @onclick="(()=>removeItem(item.value, item.i))">Удалить</button>
+        </div>
+    </p>
+    
 }
 
 <br>
@@ -24,10 +20,10 @@ Welcome to your new app.
 
 
 @code {
-    int k = 0;
     List<String> Title = new List<string>() { "", "", "", "" };
     string newItem = "";
     List<string> ToDoList = new List<string>() {"","","",""};
+
     private void removeItem(string item, int number)
     {
         

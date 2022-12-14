@@ -73,17 +73,58 @@ else
     <Title>Добавьте ваш <em>Вопрос</em></Title>
     <Body>
         <p></p>
-        <NewTest />
+        @*<Index />*@
+        <button style="background-color:green; border-color: lawngreen; border-radius: 20px; color: white; font-family: Arial;" @onclick="addItem">Новый вопрос</button>
+        @foreach (var item in @ToDoList.Select((value, i) => new { i, value }))
+        {
+            <br>
+            <br>
+
+            <p>@(item.i + 1)<input @bind=@Title[item.i] placeholder="Вопрос" /></p>
+            <div>
+                @item.value <button style="background-color:red; border-color: red; border-radius: 20px; color: white; font-family: Arial;" class="delete-button" @onclick="(()=>removeItem(item.value, item.i))">Удалить</button>
+                </div>
+        }
+
+        <br>
+        <br>
+
         <dl>
         </dl>
     </Body>
     <Footer>
-        <button type="button" class="btn btn-primary" data-dismiss="modal" @onclick="() => modal.Second()">Далее</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" @onclick="() => SaveInfo()">Сохранить</button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal" @onclick="() => modal.Close()">Закрыть</button>
     </Footer>
 </Modal>
 
+@code {
+    List<String> Title = new List<string>() { "", "", "", "" };
+    string newItem = "";
+    List<string> ToDoList = new List<string>() { "", "", "", "" };
 
+    private void removeItem(string item, int number)
+    {
+
+        if (item == "")
+        {
+            ToDoList.Remove(item);
+            Title.RemoveAt(number);
+        }
+    }
+    private void addItem()
+    {
+        ToDoList.Add(newItem);
+        Title.Add("");
+        newItem = "";
+    }
+
+    private void SaveInfo()
+    {
+        modal.Save();
+    }
+
+}
 
 @code {
 
